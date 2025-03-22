@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students List</title>
+</head>
+<body>
+    <h2>Registered Students</h2>
+    <ul id="students-list"></ul>
+
+    <script>
+        async function fetchStudents() {
+            let response = await fetch('/api/students/');
+            let data = await response.json();
+            let list = document.getElementById('students-list');
+            data.forEach(student => {
+                let li = document.createElement('li');
+                li.textContent = `${student.name} (Age: ${student.age})`;
+                list.appendChild(li);
+            });
+        }
+        fetchStudents();
+    </script>
+</body>
+</html>
