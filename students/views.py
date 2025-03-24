@@ -6,6 +6,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.renderers import JSONRenderer
+from django.shortcuts import render
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from .models import Student
@@ -71,3 +73,8 @@ class StudentListView(ListAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
     permission_classes = [permissions.AllowAny]
+    renderer_classes = [JSONRenderer]
+
+
+def student_page(request):
+    return render(request, "students/index.html")

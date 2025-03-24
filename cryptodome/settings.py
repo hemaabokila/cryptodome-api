@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-7-eafdtl5@5@nmf#q6lr6gq22&%2xo&%+ilv88ltgxt5&=_%38
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-ALLOWED_HOSTS = ["your-app-name.onrender.com"] 
+ALLOWED_HOSTS = ["127.0.0.1"] 
 
 
 # Application definition
@@ -49,6 +49,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer', 
+    ],
 }
 
 MIDDLEWARE = [
@@ -68,7 +71,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'students/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

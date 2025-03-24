@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .student-info {
+            text-align: left;
+        }
+        .student-name {
+            font-weight: bold;
+            font-size: 18px;
+            color: #007bff;
+        }
+        .student-age {
+            color: #666;
+            font-size: 14px;
+        }
+        .student-address {
+            font-size: 14px;
+            color: #888;
+        }
+        .empty-message {
+            color: #999;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>List of Students</h1>
+        <ul id="students-list">
+            <li class="empty-message">Loading...</li>
+        </ul>
+    </div>
+
+    <script>
+        async function fetchStudents() {
+            try {
+                let response = await fetch('http://127.0.0.1:8000/api/students/', {
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch data");
+                }
+
+                let data = await response.json();
+                let studentsList = document.getElementById("students-list");
+                studentsList.innerHTML = ""; 
+
+                if (data.length === 0) {
+                    studentsList.innerHTML = "<li class='empty-message'>No students available.</li>";
+                    return;
+                }
+
+                data.forEach(student => {
+                    let li = document.createElement("li");
+                    li.innerHTML = `
+                        <div class="student-info">
+                            <span class="student-name">${student.name}</span><br>
+                            <span class="student-age">Age: ${student.age}</span><br>
+                            <span class="student-address">Address: ${student.addres}</span>
+                        </div>
+                    `;
+                    studentsList.appendChild(li);
+                });
+            } catch (error) {
+                console.error("Error fetching students:", error);
+                document.getElementById("students-list").innerHTML = "<li class='empty-message'>Failed to load students.</li>";
+            }
+        }
+
+        fetchStudents(); 
+    </script>
+</body>
+</html>

@@ -1,1 +1,0 @@
-web: gunicorn cryptodome.wsgi:application --log-file -
